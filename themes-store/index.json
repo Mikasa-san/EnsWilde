@@ -8,5 +8,10 @@
     "name": "YangJiii - Passcode",
     "baseURL": "https://dangdi.fun/wallpapers/",
     "themesURL": "https://dangdi.fun/wallpapers/passcode-enswilde.json"
+  },
+  {
+    "name": "Test Server - Passcode",
+    "baseURL": "https://yangens.vercel.app/themestore/",
+    "themesURL": "https://yangens.vercel.app/themestore/passcode-enswilde.json"
   }
 ]
