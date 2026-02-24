@@ -1,0 +1,37 @@
+name: Build EnsWilde App
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+
+    - name: Select Xcode Version
+      run: sudo xcode-select -switch /Applications/Xcode.app
+
+    - name: Show Xcode Version
+      run: xcodebuild -version
+
+    - name: Build Project
+      run: |
+        xcodebuild clean build \
+          -project EnsWilde.xcodeproj \
+          -scheme EnsWilde \
+          -configuration Release \
+          CODE_SIGN_IDENTITY="" \
+          CODE_SIGNING_REQUIRED=NO
+
+    - name: Upload Build Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: EnsWilde-Build
+        path: build
