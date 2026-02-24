@@ -27,6 +27,7 @@ jobs:
           -project EnsWilde.xcodeproj \
           -scheme EnsWilde \
           -configuration Release \
+          -derivedDataPath build \
           CODE_SIGN_IDENTITY="" \
           CODE_SIGNING_REQUIRED=NO
 
