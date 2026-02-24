@@ -1,9 +1,7 @@
-name: Build EnsWilde App
+name: Build EnsWilde IPA
 
 on:
   push:
-    branches: [ main ]
-  pull_request:
     branches: [ main ]
   workflow_dispatch:
 
@@ -15,24 +13,32 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v4
 
-    - name: Select Xcode Version
+    - name: Select Xcode
       run: sudo xcode-select -switch /Applications/Xcode.app
 
     - name: Show Xcode Version
       run: xcodebuild -version
 
-    - name: Build Project
+    - name: Build iOS App
       run: |
         xcodebuild clean build \
           -project EnsWilde.xcodeproj \
           -scheme EnsWilde \
           -configuration Release \
+          -sdk iphoneos \
           -derivedDataPath build \
           CODE_SIGN_IDENTITY="" \
           CODE_SIGNING_REQUIRED=NO
 
-    - name: Upload Build Artifact
+    - name: Package IPA
+      run: |
+        mkdir -p Payload && \
+        cp -R build/Build/Products/Release-iphoneos/EnsWilde.app Payload/ && \
+        zip -r EnsWilde.ipa Payload && \
+        rm -rf Payload
+
+    - name: Upload IPA Artifact
       uses: actions/upload-artifact@v4
       with:
-        name: EnsWilde-Build
-        path: build
+        name: EnsWilde-IPA
+        path: EnsWilde.ipa
